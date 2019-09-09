@@ -1,0 +1,35 @@
+{
+    "manifest_version": 2,
+    "name": "order-procrastinator",
+    "version": "1.0",
+  
+    "description": "Saves orders from (currently) common FRC vendors to Google Sheets and recalls them to carts for later ordering",
+    "homepage_url": "https://github.com/plato2000/order-procrastinator",
+    "icons": {
+      "48": "icons/beasts-48.png"
+    },
+  
+    "permissions": [
+      "activeTab"
+    ],
+  
+    "browser_action": {
+      "default_icon": "icons/beasts-32.png",
+      "default_title": "Orders",
+      "default_popup": "popup/procrastinator_ui.html"
+    },
+  
+    "web_accessible_resources": [
+      "beasts/frog.jpg",
+      "beasts/turtle.jpg",
+      "beasts/snake.jpg"
+    ],
+
+    "content_scripts": [
+        {
+            "matches": ["*://*.vexrobotics.com/checkout/cart/"],
+            "js": ["lib/jquery-3.4.1.min.js", "assets/js/read-carts.js"]
+        }
+    ]
+  
+  }
