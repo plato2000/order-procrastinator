@@ -49,6 +49,24 @@ function grabCart() {
         for (var item of data.payload.items) {
             items.push(new Product(item.product_name, item.sku, "https://www.andymark.com/" + item.sku, "AndyMark", item.price, item.quantity));
         }
+    } else if (window.location.href.indexOf("wcproducts.net/checkout/cart") >= 0) {
+        $("#shopping-cart-table tbody tr").each(function() {
+            var p = new Product();
+            $.each(this.cells, function() {
+                if ($(this).children("h2").hasClass("product-name")) {
+                    // console.log("in correct td");
+                    p.name = $.trim($(this).children("h2.product-name").text());
+                    p.url = $.trim($(this).children("h2.product-name").children("a").attr("href"));
+                    p.number = p.url.split("/").pop();
+                } else if ($(this).hasClass("col-unit-price")) {
+                    p.price = $.trim($(this).children("span.cart-price").text());
+                } else if ($(this).attr("class") == "a-center") {
+                    p.quantity = $(this).children("input").val();
+                }
+            });
+            p.vendor = "West Coast Products";
+            items.push(p);
+        });
     }
     return items;
 }
