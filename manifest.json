@@ -24,7 +24,7 @@
 
     "content_scripts": [
         {
-            "matches": ["*://*.vexrobotics.com/checkout/cart/", "*://*.andymark.com/cart"],
+            "matches": ["*://*.vexrobotics.com/*", "*://*.andymark.com/*", "*://*.wcproducts.net/*", "*://*.therobotspace.com/*"],
             "js": ["lib/jquery-3.4.1.min.js", "assets/js/read-carts.js"]
         }
     ]
