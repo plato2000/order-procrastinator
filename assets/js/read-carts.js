@@ -24,10 +24,10 @@ function handleError() {
 }
 
 function grabCart() {
-    var items = [];
+    let items = [];
     if (window.location.href.indexOf("vexrobotics.com/checkout/cart") >= 0) {
         $("#shopping-cart-table tbody tr").each(function() {
-            var p = new Product();
+            let p = new Product();
             $.each(this.cells, function() {
                 if ($(this).hasClass("product-cart-info")) {
                     // console.log("in correct td");
@@ -44,14 +44,14 @@ function grabCart() {
             items.push(p);
         });
     } else if (window.location.href.indexOf("andymark.com/cart") >= 0) {
-        var data = JSON.parse($("div.cart").attr("data-analytics"));
+        let data = JSON.parse($("div.cart").attr("data-analytics"));
         console.log(data);
-        for (var item of data.payload.items) {
+        for (let item of data.payload.items) {
             items.push(new Product(item.product_name, item.sku, "https://www.andymark.com/" + item.sku, "AndyMark", item.price, item.quantity));
         }
     } else if (window.location.href.indexOf("wcproducts.net/checkout/cart") >= 0) {
         $("#shopping-cart-table tbody tr").each(function() {
-            var p = new Product();
+            let p = new Product();
             $.each(this.cells, function() {
                 if ($(this).children("h2").hasClass("product-name")) {
                     // console.log("in correct td");
@@ -67,14 +67,23 @@ function grabCart() {
             p.vendor = "West Coast Products";
             items.push(p);
         });
+    } else if (window.location.href.indexOf("therobotspace.com/AjaxCart.asp") >= 0) { 
+        let jsn = JSON.parse($(document).text());
+        console.log(jsn);
+        let products = jsn.Products;
+        for (let item of products) {
+            console.log(item);
+            items.push(new Product(item.ProductName, item.ProductCode, "https://www.therobotspace.com/ProductDetails.asp?ProductCode=" + item.ProductCode, "The Robot Space", item.ProductPrice, item.Quantity));
+        }
     }
+
     return items;
 }
 
 browser.runtime.onMessage.addListener((message) => {
     if (message.command === "grabCart") {
         console.log("grabbing cart...");
-        var items = grabCart();
+        let items = grabCart();
         console.log(items);
         return Promise.resolve({cart: items});
     }
