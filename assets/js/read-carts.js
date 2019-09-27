@@ -45,8 +45,9 @@ function grabCart() {
         });
     } else if (window.location.href.indexOf("andymark.com/cart") >= 0) {
         var data = JSON.parse($("div.cart").attr("data-analytics"));
-        for (var item of data.items) {
-            items.push(new Product(item.name, item.sku, "https://www.andymark.com/" + item.sku, "AndyMark", item.price, item.quantity));
+        console.log(data);
+        for (var item of data.payload.items) {
+            items.push(new Product(item.product_name, item.sku, "https://www.andymark.com/" + item.sku, "AndyMark", item.price, item.quantity));
         }
     }
     return items;
@@ -54,6 +55,7 @@ function grabCart() {
 
 browser.runtime.onMessage.addListener((message) => {
     if (message.command === "grabCart") {
+        console.log("grabbing cart...");
         var items = grabCart();
         console.log(items);
         return Promise.resolve({cart: items});

@@ -20,14 +20,11 @@
     },
   
     "web_accessible_resources": [
-      "beasts/frog.jpg",
-      "beasts/turtle.jpg",
-      "beasts/snake.jpg"
     ],
 
     "content_scripts": [
         {
-            "matches": ["*://*.vexrobotics.com/checkout/cart/"],
+            "matches": ["*://*.vexrobotics.com/checkout/cart/", "*://*.andymark.com/cart"],
             "js": ["lib/jquery-3.4.1.min.js", "assets/js/read-carts.js"]
         }
     ]
